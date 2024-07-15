@@ -22,18 +22,18 @@ Object.entries(process.env).filter(e => e[0].startsWith("token")).forEach((token
     if (!commands.some(e => e.name.startsWith("sticky"))) {
       await bot.createCommand({
         name: "sticky_set",
-        description: "لإنشاء رسالة لاصقة على قناة معين",
+        description: "Sticky Set",
         options: [
           {
             "name": "channel",
-            "description": "الروم الذي تريد بيه الرسالة لاصقة",
+            "description": "Channel",
             "type": Eris.Constants.ApplicationCommandOptionTypes.CHANNEL,
             "required": true,
             "channel_types": [0]
           },
           {
             "name": "content",
-            "description": "اكتب الرسالة التي تريدها سواء كانت أمبد أو عادية",
+            "description": "Content",
             "type": Eris.Constants.ApplicationCommandOptionTypes.STRING,
             "required": true,
           }
@@ -42,11 +42,11 @@ Object.entries(process.env).filter(e => e[0].startsWith("token")).forEach((token
       });
       await bot.createCommand({
         name: "sticky_remove",
-        description: "لحذف رسالة لاصقة على قناة معين",
+        description: "Sticky Remove",
         options: [
           {
             "name": "channel",
-            "description": "الروم الذي تريد الغاء بيه الرسالة اللاصقة",
+            "description": "Channel",
             "type": Eris.Constants.ApplicationCommandOptionTypes.CHANNEL,
             "required": true,
             "channel_types": [0]
@@ -83,7 +83,7 @@ Object.entries(process.env).filter(e => e[0].startsWith("token")).forEach((token
   bot.on("interactionCreate", async (interaction) => {
     if (interaction instanceof Eris.CommandInteraction) {
       if (interaction.data.name == "sticky_set") {
-        if (!interaction.member.permission.has("administrator")) return await interaction.createMessage(`:x: ليس لديك صلاحيات لقيام بذلك`);
+        if (!interaction.member.permission.has("administrator")) return await interaction.createMessage(`❌ Error. ERRORS: Do you have ADMIN PERMS? If yes, try again.`);
         let channelId = interaction.data.options[0].value
         let msgId
         try {
@@ -101,31 +101,32 @@ Object.entries(process.env).filter(e => e[0].startsWith("token")).forEach((token
         await interaction.createMessage({
           embeds: [
             {
-              "title": "تم **إنشاء** رسالة للاصقة بنجاح ✅",
+              "title": "✅ Sticky Set!",
               "description": `<#${channelId}>`,
               "color": 1013218,
               "footer": {
-                "text": `بوت من صنع ${require("./package.json")['author']}`
+                "text": `Done. ${require("./package.json")['author']}`
               }
             }
           ],
           flags: 64
         });
       } else if (interaction.data.name == "sticky_remove") {
-        if (!interaction.member.permission.has("administrator")) return await interaction.createMessage(`:x: ليس لديك صلاحيات لقيام بذلك`);
+        if (!interaction.member.permission.has("administrator")) return await interaction.createMessage(`❌ Error. ERRORS: Do you have ADMIN PERMS? If yes, try again.
+`);
         let channelId = interaction.data.options[0].value
-        if (await db.has(`stickychannel_${bot.user.id}_${channelId}`) != true) return await interaction.createMessage(`:x: لا توجد رسائل ثابتة تم إنشاؤها فعليًا في ذاكرة القراءة فقط`);
+        if (await db.has(`stickychannel_${bot.user.id}_${channelId}`) != true) return await interaction.createMessage(`❌ Error. ERRORS: No sticky set.`);
         await db.delete({
           key: `stickychannel_${bot.user.id}_${channelId}`
         })
         await interaction.createMessage({
           embeds: [
             {
-              "title": "تم **إلغاء** رسالة اللاصقة بنجاح ✅",
+              "title": "✅ Sticky Remove",
               "description": `<#${channelId}>`,
               "color": 1013218,
               "footer": {
-                "text": `بوت من صنع ${require("./package.json")['author']}`
+                "text": `Done. ${require("./package.json")['author']}`
               }
             }
           ],
