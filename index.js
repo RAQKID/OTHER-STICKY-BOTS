@@ -83,7 +83,7 @@ Object.entries(process.env).filter(e => e[0].startsWith("token")).forEach((token
   bot.on("interactionCreate", async (interaction) => {
     if (interaction instanceof Eris.CommandInteraction) {
       if (interaction.data.name == "sticky_set") {
-        if (!interaction.member.permission.has("administrator")) return await interaction.createMessage(`❌ Error. ERRORS: Do you have ADMIN PERMS? If yes, try again.`);
+        if (!interaction.member.permission.has("administrator")) return await interaction.createMessage(`❌ Error. ERRORS: Do you have ADMINISTRATOR PERMISSION? If yes, try again.`);
         let channelId = interaction.data.options[0].value
         let msgId
         try {
@@ -101,18 +101,18 @@ Object.entries(process.env).filter(e => e[0].startsWith("token")).forEach((token
         await interaction.createMessage({
           embeds: [
             {
-              "title": "✅ Sticky Set!",
-              "description": `<#${channelId}>`,
+              "title": "Sticky Set!",
+              "description": `You currently set a sticky message in <#${channelId}>`,
               "color": 1013218,
               "footer": {
-                "text": `Done. ${require("./package.json")['author']}`
+                "text": `Made by ${require("./package.json")['author']}`
               }
             }
           ],
           flags: 64
         });
       } else if (interaction.data.name == "sticky_remove") {
-        if (!interaction.member.permission.has("administrator")) return await interaction.createMessage(`❌ Error. ERRORS: Do you have ADMIN PERMS? If yes, try again.
+        if (!interaction.member.permission.has("administrator")) return await interaction.createMessage(`❌ Error. ERRORS: Do you have ADMINISTRATOR PERMISSION? If yes, try again.
 `);
         let channelId = interaction.data.options[0].value
         if (await db.has(`stickychannel_${bot.user.id}_${channelId}`) != true) return await interaction.createMessage(`❌ Error. ERRORS: No sticky set.`);
@@ -122,11 +122,11 @@ Object.entries(process.env).filter(e => e[0].startsWith("token")).forEach((token
         await interaction.createMessage({
           embeds: [
             {
-              "title": "✅ Sticky Remove",
-              "description": `<#${channelId}>`,
+              "title": "Sticky Remove!",
+              "description": `You currently removed the sticky message in <#${channelId}>`,
               "color": 1013218,
               "footer": {
-                "text": `Done. ${require("./package.json")['author']}`
+                "text": `Made by ${require("./package.json")['author']}`
               }
             }
           ],
