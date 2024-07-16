@@ -1,7 +1,8 @@
+
 {
   "name": "sticky-message-bot",
   "version": "1.0.0",
-  "description": "Bot Create By Raqkid Jr.",
+  "description": "Bot create by mangthomas AKA RÄQkïd.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
